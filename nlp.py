@@ -18,4 +18,10 @@ tokens = []
 for s in sentences:
     tokens.append(nltk.tokenize.word_tokenize(s))
 
-print tokens
+# POS Tagging
+
+pos_tagged_tokens = []
+for t in tokens:
+    pos_tagged_tokens.append(nltk.pos_tag(t))
+
+print pos_tagged_tokens
