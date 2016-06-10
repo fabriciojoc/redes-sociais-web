@@ -2,8 +2,11 @@
 
 import nltk
 
-# Primeira execução: baixa os dados utilizados pela biblioteca
-# nltk.download()
+# Baixa os dados utilizados pela biblioteca
+nltk.download('punkt')
+nltk.download('maxent_treebank_pos_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
 
 # EOS Detection
 
