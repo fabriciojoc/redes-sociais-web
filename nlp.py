@@ -24,4 +24,11 @@ pos_tagged_tokens = []
 for t in tokens:
     pos_tagged_tokens.append(nltk.pos_tag(t))
 
-print pos_tagged_tokens
+# Chunking
+
+ne_chunk = []
+for chunk in nltk.ne_chunk_sents(pos_tagged_tokens):
+    ne_chunk.append(chunk)
+
+for c in ne_chunk:
+    print c
