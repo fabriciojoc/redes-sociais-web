@@ -6,7 +6,7 @@ import json
 import feedparser
 from bs4 import BeautifulSoup
 
-FEED_URL = 'http://g1.globo.com/dynamo/rss2.xml'
+FEED_URL = 'http://www.stf.jus.br/portal/rss/noticiaRss.asp?codigo=1'
 
 fp = feedparser.parse(FEED_URL)
 
@@ -16,7 +16,7 @@ blog_posts = []
 for e in fp.entries:
     blog_posts.append({'title': e.title,
                        'published': e.published,
-                       'summary': BeautifulSoup(e.summary, 'lxml').get_text(),
+                       'description': BeautifulSoup(e.description, 'lxml').get_text(),
                        'link': e.link})
 
 out_file = os.path.join('./', 'feed.json')

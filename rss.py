@@ -2,15 +2,12 @@
 
 import feedparser
 
-FEED_URL = "http://g1.globo.com/dynamo/rss2.xml"
+FEED_URL = "http://www.stf.jus.br/portal/rss/noticiaRss.asp?codigo=1"
 
 fp = feedparser.parse(FEED_URL)
 for f in fp.entries:
     print "Título: ", f.title
     print "Publicado: ", f.published
     print "Resumo:", f.summary
-    tags = ""
-    for t in f.tags:
-        tags += t.term + " "
-    print "Tags: ", tags
+    print "Descrição: ", f.description
     print '------'
