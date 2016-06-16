@@ -15,7 +15,7 @@ for post in blog_data:
     # and sentences are guaranteed to be separated by a special
     # POS tuple such as ('.', '.')
 
-    pos_tagged_tokens = [token for sent in pos_tagged_tokens for token in sent]
+    pos_tagged_tokens = [token for sent in pos_tagged_tokens for token in sent if token not in nltk.corpus.stopwords.words('portuguese')]
 
     all_entity_chunks = []
     previous_pos = None
