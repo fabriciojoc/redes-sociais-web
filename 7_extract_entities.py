@@ -22,21 +22,21 @@ for post in blog_data:
     tagged_tokens = []
     for sent in pos_tagged_tokens:
         for token in sent:
-            tagged_tokens.append(token)
+            if token[0].lower() not in nltk.corpus.stopwords.words('portuguese'):
+                tagged_tokens.append(token)
     all_entity_chunks = []
     previous_pos = None
     current_entity_chunk = []
     for (token, pos) in tagged_tokens:
-        if token.lower() not in nltk.corpus.stopwords.words('portuguese'):
-            if pos == previous_pos and pos.startswith('NN'):
-                current_entity_chunk.append(token)
-            elif pos.startswith('NN'):
-                if current_entity_chunk != []:
-                    # Note that current_entity_chunk could be a duplicate when appended,
-                    # so frequency analysis again becomes a consideration
-                    all_entity_chunks.append((' '.join(current_entity_chunk), pos))
-                current_entity_chunk = [token]
-            previous_pos = pos
+        if pos == previous_pos and pos.startswith('NN'):
+            current_entity_chunk.append(token)
+        elif pos.startswith('NN'):
+            if current_entity_chunk != []:
+                # Note that current_entity_chunk could be a duplicate when appended,
+                # so frequency analysis again becomes a consideration
+                all_entity_chunks.append((' '.join(current_entity_chunk), pos))
+            current_entity_chunk = [token]
+        previous_pos = pos
     # Store the chunks as an index for the document
     # and account for frequency while we're at it...
     post['entities'] = {}

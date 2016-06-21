@@ -1,7 +1,18 @@
 import nltk
 import json
+import os
+
 
 BLOG_DATA = "./feed.json"
+
+HTML_TEMPLATE = """<html>
+    <head>
+        <title>%s</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>%s</body>
+</html>"""
+
 
 def extract_interactions(txt):
     # EOS Detection
@@ -15,6 +26,7 @@ def extract_interactions(txt):
     for t in tokens:
         pos_tagged_tokens.append(nltk.pos_tag(t))
 
+    print pos_tagged_tokens
     entity_interactions = []
     for sentence in pos_tagged_tokens:
 
@@ -52,8 +64,23 @@ for post in blog_data:
 
     post.update(extract_interactions(post['description']))
 
-    print post['title']
-    print '-' * len(post['title'])
-    for interactions in post['entity_interactions']:
-        print '; '.join([i[0] for i in interactions])
-    print
+    # Display output as markup with entities presented in bold text
+
+    post['markup'] = []
+
+    for sentence_idx in range(len(post['sentences'])):
+
+        s = post['sentences'][sentence_idx]
+        for (term, _) in post['entity_interactions'][sentence_idx]:
+            s = s.replace(term, '<strong>%s</strong>' % (term, ))
+
+        post['markup'] += [s]
+
+    filename = post['title'].replace("?", "") + '.entity_interactions.html'
+    f = open(os.path.join('./entities_interactions', filename), 'w')
+    html = HTML_TEMPLATE % (post['title'] + ' Interactions',
+                            ' '.join(post['markup']),)
+    f.write(html.encode('utf-8'))
+    f.close()
+
+    print "Data written to", f.name
