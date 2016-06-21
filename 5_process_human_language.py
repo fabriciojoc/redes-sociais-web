@@ -32,7 +32,7 @@ stop_words = nltk.corpus.stopwords.words('portuguese') + [
     ]
 
 for post in blog_data:
-    sentences = nltk.tokenize.sent_tokenize(post['summary'])
+    sentences = nltk.tokenize.sent_tokenize(post['description'])
 
     words = [w.lower() for sentence in sentences for w in
              nltk.tokenize.word_tokenize(sentence)]
@@ -52,7 +52,7 @@ for post in blog_data:
                                     not in stop_words][:10]
 
     print 'Title: ',post['title']
-    print 'Summary: ', post['summary']
+    print 'Description: ', post['description']
     print '\tNum Sentences:'.ljust(25), len(sentences)
     print '\tNum Words:'.ljust(25), num_words
     print '\tNum Unique Words:'.ljust(25), num_unique_words
