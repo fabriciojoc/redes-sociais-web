@@ -26,7 +26,6 @@ def extract_interactions(txt):
     for t in tokens:
         pos_tagged_tokens.append(nltk.pos_tag(t))
 
-    print pos_tagged_tokens
     entity_interactions = []
     for sentence in pos_tagged_tokens:
 
