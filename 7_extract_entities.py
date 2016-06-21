@@ -15,25 +15,25 @@ for post in blog_data:
     # and sentences are guaranteed to be separated by a special
     # POS tuple such as ('.', '.')
 
-    pos_tagged_tokens = [token for sent in pos_tagged_tokens for token in sent if token not in nltk.corpus.stopwords.words('portuguese')]
+    pos_tagged_tokens = [token for sent in pos_tagged_tokens for token in sent]
 
     all_entity_chunks = []
     previous_pos = None
     current_entity_chunk = []
     for (token, pos) in pos_tagged_tokens:
+        if token.lower() not in nltk.corpus.stopwords.words('portuguese'):
+            if pos == previous_pos and pos.startswith('NN'):
+                current_entity_chunk.append(token)
+            elif pos.startswith('NN'):
+                if current_entity_chunk != []:
 
-        if pos == previous_pos and pos.startswith('NN'):
-            current_entity_chunk.append(token)
-        elif pos.startswith('NN'):
-            if current_entity_chunk != []:
+                    # Note that current_entity_chunk could be a duplicate when appended,
+                    # so frequency analysis again becomes a consideration
 
-                # Note that current_entity_chunk could be a duplicate when appended,
-                # so frequency analysis again becomes a consideration
+                    all_entity_chunks.append((' '.join(current_entity_chunk), pos))
+                current_entity_chunk = [token]
 
-                all_entity_chunks.append((' '.join(current_entity_chunk), pos))
-            current_entity_chunk = [token]
-
-        previous_pos = pos
+            previous_pos = pos
 
     # Store the chunks as an index for the document
     # and account for frequency while we're at it...
