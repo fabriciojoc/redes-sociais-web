@@ -4,9 +4,16 @@ import json
 BLOG_DATA = "./feed.json"
 
 def extract_interactions(txt):
-    sentences = nltk.tokenize.sent_tokenize(txt)
-    tokens = [nltk.tokenize.word_tokenize(s) for s in sentences]
-    pos_tagged_tokens = [nltk.pos_tag(t) for t in tokens]
+    # EOS Detection
+    sentences = nltk.tokenize.sent_tokenize(post['description'])
+    # Tokenization
+    tokens = []
+    for s in sentences:
+        tokens.append(nltk.tokenize.word_tokenize(s))
+    # POS Tagging
+    pos_tagged_tokens = []
+    for t in tokens:
+        pos_tagged_tokens.append(nltk.pos_tag(t))
 
     entity_interactions = []
     for sentence in pos_tagged_tokens:
